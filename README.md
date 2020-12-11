@@ -10,16 +10,23 @@
 ## About Project
 Rest Server Up-Send App. This application is used for the management of attendance events.
 
+---
+
 ## Tech Stack and Third Library
 - Laravel ^7.0 ([docs](https://laravel.com/))
 - JWT-Auth ^1.0 ([docs](https://jwt-auth.readthedocs.io/en/develop/))
 
+---
+
 ### Endpoint Rest API
 
-| Endpoint Name       | URL | Status  | Deskripsi | `Auth` |
-| --------------- |:---------:|:---:|:-------:|:----------|:------:|
+| Endpoint Name   |    URL    | Status  | Deskripsi | `Auth` |
+| --------------- |:---------:|:-------:|:---------:|:------:|
 | Registration | [/api/auth/register] | `Aktif` | User Registration | - |
 | Login | [/api/auth/login] | `Aktif` | User Login | - |
+
+---
+
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
