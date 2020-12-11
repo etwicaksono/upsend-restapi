@@ -20,11 +20,11 @@ Rest Server Up-Send App. This application is used for the management of attendan
 
 ### Endpoint Rest API
 
-| No | Endpoint Name   |    URL    | Status  | Deskripsi | `Auth` |
-|----| --------------- |:---------:|:-------:|:---------:|:------:|
-| 1  | Registration | [/api/auth/register](http://127.0.0.1:8000/api/auth/register) | `Aktif` | User Registration | - |
-| 2  | Login | [/api/auth/login](http://127.0.0.1:8000/api/auth/login) | `Aktif` | User Login | - |
-| 3  | Logout | [/api/auth/login](http://127.0.0.1:8000/api/auth/logout) | `Aktif` | User Logout | - |
+|  No  | Endpoint Name   |    URL    | Status  | Deskripsi | `Auth` |
+| ---- |:---------------:|:---------:|:-------:|:---------:|:------:|
+|  1   | Registration | [/api/auth/register](http://127.0.0.1:8000/api/auth/register) | `Aktif` | User Registration | - |
+|  2   | Login | [/api/auth/login](http://127.0.0.1:8000/api/auth/login) | `Aktif` | User Login | - |
+|  3   | Logout | [/api/auth/login](http://127.0.0.1:8000/api/auth/logout) | `Aktif` | User Logout | - |
 
 ---
 
