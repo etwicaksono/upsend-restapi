@@ -12,13 +12,18 @@ Rest Server Up-Send App. This application is used for the management of attendan
 
 ---
 
-## Tech Stack and Third Library
-- Laravel ^7.0 ([docs](https://laravel.com/))
-- JWT-Auth ^1.0 ([docs](https://jwt-auth.readthedocs.io/en/develop/))
+## How to install
 
 ---
 
-### Endpoint Rest API
+## Tech Stack and Third Library
+- Laravel ^7.0 ([docs](https://laravel.com/))
+- JWT-Auth ^1.0 ([docs](https://jwt-auth.readthedocs.io/en/develop/))
+- Endroid/Qr-Code ^3.9 ([docs](https://github.com/endroid/qr-code))
+
+---
+
+## Endpoint Rest API
 
 |  No  | Endpoint Name   |    URL    | Status  | Deskripsi | `Auth` |
 | ---- |:---------------:|:---------:|:-------:|:---------:|:------:|
