@@ -18,7 +18,7 @@ class AlterTableAddRoleIdUser extends Migration
             $table->unsignedBigInteger('access_id')->after('role_id');
 
             $table->foreign("role_id")->references("id")->on("roles");
-            $table->foreign("access_id")->references("id")->on("access");
+            $table->foreign("access_id")->references("id")->on("accesses");
         });
     }
 
