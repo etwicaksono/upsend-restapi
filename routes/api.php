@@ -25,7 +25,7 @@ Route::namespace('Event')->prefix('event')->group(function() {
     // create event
     Route::post('create', 'EventController@store');
     // update event
-    Route::put('update', 'EventController@update');
+    Route::post('update', 'EventController@update');
     // show event by ID
     Route::get('show', 'EventController@show');
     // delete event
