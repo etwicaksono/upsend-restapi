@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Event;
 
 use App\Event;
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -18,9 +19,11 @@ class ParticipantController extends Controller
     {
         $eventId = request('event_id');
 
-        $listOfParticipant = Event::where('event_id', $eventId)->get();
+        $listOfParticipant = User::join('register_events', 'register_events.user_id', '=', 'users.id')
+            ->where('register_events.event_id', $eventId)
+            ->get();
 
-        if($listOfParticipant == null) {
+        if ($listOfParticipant == null) {
             return response()->json([
                 'status' => Response::HTTP_BAD_REQUEST,
                 'message' => 'Data Participant not found'
@@ -38,9 +41,12 @@ class ParticipantController extends Controller
     {
         $eventId = request('event_id');
 
-        $listOfParticipant = Event::where('event_id', $eventId)->where('is_user_come', 1)->get();
-
-        if($listOfParticipant == null) {
+        $listOfParticipant = User::join('register_events', 'register_events.user_id', '=', 'users.id')
+            ->where('register_events.event_id', $eventId)
+            ->where('register_events.is_user_come', 1)
+            ->get();
+            
+        if ($listOfParticipant == null) {
             return response()->json([
                 'status' => Response::HTTP_BAD_REQUEST,
                 'message' => 'Data Participant not found'
