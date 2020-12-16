@@ -17,7 +17,7 @@ class CreateEventsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('name', 100);
-            $table->string('code', 50)->unique();
+            $table->string('code', 50)->unique()->nullable();
             $table->integer('capasity')->unsigned();
             $table->string('image', 256);
             $table->tinyInteger('status')->nullable();
