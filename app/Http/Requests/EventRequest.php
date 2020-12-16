@@ -24,8 +24,8 @@ class EventRequest extends FormRequest
     public function rules()
     {
         return [
+            'user_id' => 'required',
             'name' => 'required',
-            'code' => 'required|unique:events,code',
             'capasity' => 'required',
             'image' => 'required|file|image|mimes:jpeg,png,jpg',
             'start_date' => 'required',
