@@ -9,6 +9,7 @@ use App\RegisterEvent;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Endroid\QrCode\QrCode;
+use Illuminate\Support\Facades\URL;
 
 class EventController extends Controller
 {
@@ -34,11 +35,28 @@ class EventController extends Controller
             ], Response::HTTP_OK);
         } else {
             $event = Event::where('user_id', $userId)->get();
+            $baseUrl = URL::to("/img") . "/";
+            $data = [];
+            foreach ($event as $key => $value) {
+                $result = [
+                    'id' => $value->id,
+                    'user_id' => $value->user_id,
+                    'name' => $value->name,
+                    'code' => $value->code,
+                    'url_qr_code' => $baseUrl . "events_qrcode/" . $value->code . ".png",
+                    'capasity' => $value->capasity,
+                    'image_url' => $baseUrl . "events_image_poster/" . $value->image,
+                    'status' => $value->status,
+                    'start_date' => $value->start_date,
+                    'due_date' => $value->due_date
+                ];
+                array_push($data, $result);
+            }
         }
         return response()->json([
             'status' => Response::HTTP_OK,
             'message' => 'This data',
-            'data' => $event
+            'data' => $data
         ], Response::HTTP_OK);
     }
 
@@ -57,7 +75,7 @@ class EventController extends Controller
         $imagePoster->move($tujuan_upload, $imagePosterName);
 
         // generate code for QRCode
-        $nameOfCode = request('user_id') . "." . substr("%Y", time(), 5);
+        $nameOfCode = request('user_id') . "_" . time() . "_" . $this->_generateRandomString();
 
         Event::create([
             'user_id' => request('user_id'),
@@ -99,10 +117,24 @@ class EventController extends Controller
                 ->where('is_user_come', 1)
                 ->count();
 
+            $baseUrl = URL::to("/img") . "/";
+            $result = [
+                'id' => $data->id,
+                'user_id' => $data->user_id,
+                'name' => $data->name,
+                'code' => $data->code,
+                'url_qr_code' => $baseUrl . "events_qrcode/" . $data->code . ".png",
+                'capasity' => $data->capasity,
+                'image_url' => $baseUrl . "events_image_poster/" . $data->image,
+                'status' => $data->status,
+                'start_date' => $data->start_date,
+                'due_date' => $data->due_date
+            ];
+
             $response = [
                 'participant' => $participant,
                 'participant_is_coming' => $participantIsComing,
-                'data' => $data
+                'data' => $result
             ];
 
             if ($data == null) {
@@ -127,22 +159,31 @@ class EventController extends Controller
      * @param  \App\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function update(EventRequest $request, Event $event)
+    public function update(EventRequest $request)
     {
-
         if (request('id') == null) {
             return response()->json([
                 'status' => Response::HTTP_BAD_REQUEST,
                 'message' => 'Bad Request',
             ], Response::HTTP_OK);
         } else {
+            $baseUrl = $_SERVER['DOCUMENT_ROOT'] . "/img/events_image_poster/";
+            $imagePoster = request('image');
+            $dataCurrent = Event::where('id', request('id'))->first();
+            if ($imagePoster != null) {
+                unlink($baseUrl . $dataCurrent->image);
+                $imagePosterName = time() . "_" . $imagePoster->getClientOriginalName();
+                $tujuan_upload = 'img/events_image_poster';
+                $imagePoster->move($tujuan_upload, $imagePosterName);
+            } else {
+                $imagePosterName = $dataCurrent->image;
+            }
 
             $data = [
                 'user_id' => request('user_id'),
                 'name' => request('name'),
-                'code' => request('code'),
                 'capasity' => request('capasity'),
-                'image' => request('image'),
+                'image' => $imagePosterName,
                 'status' => 1,
                 'start_date' => request('start_date'),
                 'due_date' => request('due_date'),
@@ -243,5 +284,16 @@ class EventController extends Controller
         // Save it to a file
         $path = public_path('img/events_qrcode/' . $code . '.png');
         $qrCode->writeFile($path);
+    }
+
+    private function _generateRandomString($length = 10)
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 }
