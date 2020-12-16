@@ -25,12 +25,23 @@ Rest Server Up-Send App. This application is used for the management of attendan
 
 ## Installation
 
-1. Composer Update
+- Composer Update
 ``` bash
 $ composer update
 ```
-2. Setting .env
-3. Migrate database
+- Create JWT Secret
+``` bash
+$ php artisan jwt:secret
+```
+- Setting .env
+``` .env
+...
+DB_DATABASE=name_of_database
+...
+
+JWT_TTL = 999999
+```
+- Migrate database
 ``` bash
 $ php artisan migrate
 ```
