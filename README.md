@@ -23,6 +23,19 @@ Rest Server Up-Send App. This application is used for the management of attendan
 
 ---
 
+## Installation
+
+1. Composer Update
+``` bash
+$ composer update
+```
+2. Setting .env
+3. Migrate database
+``` bash
+$ php artisan migrate
+```
+---
+
 ## Endpoint Rest API
 
 |  No  | Endpoint Name   |    URL    | Status  | Deskripsi | `Token` |
@@ -41,6 +54,8 @@ Rest Server Up-Send App. This application is used for the management of attendan
 |  12   | List of participant | [/api/event/participant/](http://127.0.0.1:8000/api/event/participant/) | `Aktif` | list of participant who registered to the event | `jwt` |
 |  13   | List of participant | [/api/event/participant/come/](http://127.0.0.1:8000/api/event/participant/come/) | `Aktif` | list of participant who came to the event | `jwt` |
 
+### Detail Documentation API
+Detail for API documentation ([docs](https://documenter.getpostman.com/view/10024570/TVspmqBb))
 
 ---
 
