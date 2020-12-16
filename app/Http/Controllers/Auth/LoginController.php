@@ -28,9 +28,6 @@ class LoginController extends Controller
         }
 
         $user = User::where('email', request('email'))->first();
-        // unset($user['password']);
-        // unset($user['email_veified_at']);
-        // unset($user['remember_token']);
         return response()->json([
             'status' => Response::HTTP_OK,
             'message' => 'Login Successfully',
