@@ -21,7 +21,7 @@ Route::namespace('Auth')->prefix('auth')->group(function () {
 
 Route::namespace('Event')->prefix('event')->group(function() {
     // get all event
-    Route::post('/', 'EventController@index');
+    Route::get('/', 'EventController@index');
     // create event
     Route::post('create', 'EventController@store');
     // update event
@@ -36,15 +36,13 @@ Route::namespace('Event')->prefix('event')->group(function() {
     // registration to event
     Route::post('registration', 'RegisterEventController');
     // come to event
-    Route::post('joined', 'JoinEventController');
+    Route::post('come', 'JoinEventController');
    
     Route::prefix('participant')->group(function() {
-        // list of participant registration on event
+        // list of participant who registered fot the event
         Route::post('/', 'ParticipantController@registration');
         
-        // list of participant coming on event
+        // list of participant who came to the event
         Route::post('come', 'ParticipantController@come');
     });
 });
-
-
