@@ -20,7 +20,7 @@ class CreateEventsTable extends Migration
             $table->string('code', 50)->unique();
             $table->integer('capasity')->unsigned();
             $table->string('image', 256);
-            $table->tinyInteger('status')->unsigned();
+            $table->tinyInteger('status')->nullable();
             $table->timestamp('start_date')->nullable();
             $table->timestamp('due_date')->nullable();
             $table->timestamps();
