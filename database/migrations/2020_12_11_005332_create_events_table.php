@@ -19,13 +19,14 @@ class CreateEventsTable extends Migration
             $table->string('name', 100);
             $table->string('code', 50)->unique()->nullable();
             $table->integer('capasity')->unsigned();
+            $table->text("description");
             $table->string('image', 256);
             $table->tinyInteger('status')->nullable();
             $table->timestamp('start_date')->nullable();
             $table->timestamp('due_date')->nullable();
             $table->timestamps();
 
-            $table->foreign("user_id")->references("id")->on("users");
+            $table->foreign("user_id")->references("id")->on("users")->onDelete('cascade');
         });
     }
 
