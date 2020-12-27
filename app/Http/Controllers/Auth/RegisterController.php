@@ -22,11 +22,15 @@ class RegisterController extends Controller
             'firstname' => request('firstname'),
             'lastname' => request('lastname'),
             'email' => request('email'),
-            'access_id' => request('access_id'),
-            'role_id' => request('role_id'),
+            'access_id' => 1,
+            'role_id' => 2,
             'password' => bcrypt(request('password'))
         ]);
 
-        return response($user, Response::HTTP_OK);
+        return response()->json([
+            'status' => Response::HTTP_CREATED,
+            'message' => "Registration Successfully",
+            'data' => $user
+        ], Response::HTTP_CREATED);
     }
 }
