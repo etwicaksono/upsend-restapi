@@ -40,11 +40,12 @@ class EventController extends Controller
             foreach ($event as $key => $value) {
                 $result = [
                     'id' => $value->id,
-                    'user_id' => $value->user_id,
+                    'createBy_userId' => $value->user_id,
                     'name' => $value->name,
                     'code' => $value->code,
                     'url_qr_code' => $baseUrl . "events_qrcode/" . $value->code . ".png",
                     'capasity' => $value->capasity,
+                    'description' => $value->description,
                     'image_url' => $baseUrl . "events_image_poster/" . $value->image,
                     'status' => $value->status,
                     'start_date' => $value->start_date,
@@ -82,6 +83,7 @@ class EventController extends Controller
             'name' => request('name'),
             'code' => $nameOfCode,
             'capasity' => request('capasity'),
+            'description' => request('description'),
             'image' => $imagePosterName,
             'status' => 1,
             'start_date' => request('start_date'),
@@ -120,22 +122,20 @@ class EventController extends Controller
             $baseUrl = URL::to("/img") . "/";
             $result = [
                 'id' => $data->id,
-                'user_id' => $data->user_id,
+                'createBy_userId' => $data->user_id,
                 'name' => $data->name,
                 'code' => $data->code,
                 'url_qr_code' => $baseUrl . "events_qrcode/" . $data->code . ".png",
                 'capasity' => $data->capasity,
+                'description' => $data->description,
                 'image_url' => $baseUrl . "events_image_poster/" . $data->image,
                 'status' => $data->status,
                 'start_date' => $data->start_date,
-                'due_date' => $data->due_date
+                'due_date' => $data->due_date,
+                'participant' => $participant,
+                'participant_is_coming' => $participantIsComing
             ];
 
-            $response = [
-                'participant' => $participant,
-                'participant_is_coming' => $participantIsComing,
-                'data' => $result
-            ];
 
             if ($data == null) {
                 return response()->json([
@@ -146,7 +146,7 @@ class EventController extends Controller
                 return response()->json([
                     'status' => Response::HTTP_OK,
                     'message' => 'This Data',
-                    'result' => $response
+                    'data' => $result
                 ], Response::HTTP_OK);
             }
         }
@@ -183,6 +183,7 @@ class EventController extends Controller
                 'user_id' => request('user_id'),
                 'name' => request('name'),
                 'capasity' => request('capasity'),
+                'description' => request("description"),
                 'image' => $imagePosterName,
                 'status' => 1,
                 'start_date' => request('start_date'),
@@ -212,15 +213,15 @@ class EventController extends Controller
      * @param  \App\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Event $event)
+    public function destroy($id)
     {
-        if (request('id') == null) {
+        if ($id == null) {
             return response()->json([
                 'status' => Response::HTTP_BAD_REQUEST,
                 'message' => 'Bad Request',
             ], Response::HTTP_OK);
         } else {
-            $delete = Event::where('id', request('id'))->delete();
+            $delete = Event::where('id', $id)->delete();
             if ($delete > 0) {
                 return response()->json([
                     'status' => Response::HTTP_OK,
@@ -245,21 +246,35 @@ class EventController extends Controller
         $query = request('query');
         $userId = request('user_id');
 
-        $search = Event::query()
-            ->where('user_id', $userId)
+        $search = Event::select('events.*')
+            ->join('register_events', 'register_events.event_id', '=', 'events.id')
+            ->where('register_events.user_id', $userId)
             ->where('name', 'LIKE', '%' . $query . '%')
             ->get();
 
-
-        // if(empty($search)) {
-        //     return "asdf";
-        // } else {
+        $baseUrl = URL::to("/img") . "/";
+        $data = [];
+        foreach ($search as $key => $value) {
+            $result = [
+                'id' => $value->id,
+                'createBy_userId' => $value->user_id,
+                'name' => $value->name,
+                'code' => $value->code,
+                'url_qr_code' => $baseUrl . "events_qrcode/" . $value->code . ".png",
+                'description' => $value->description,
+                'capasity' => $value->capasity,
+                'image_url' => $baseUrl . "events_image_poster/" . $value->image,
+                'status' => $value->status,
+                'start_date' => $value->start_date,
+                'due_date' => $value->due_date
+            ];
+            array_push($data, $result);
+        }
         return response()->json([
             'status' => Response::HTTP_OK,
             'message' => 'This data!',
-            'data' => $search
+            'data' => $data
         ], Response::HTTP_OK);
-        // }
     }
 
 
