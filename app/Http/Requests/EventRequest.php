@@ -27,7 +27,8 @@ class EventRequest extends FormRequest
             'user_id' => 'required',
             'name' => 'required',
             'capasity' => 'required',
-            'image' => 'required|file|image|mimes:jpeg,png,jpg',
+            'description' => 'required',
+            'image' => 'file|image|mimes:jpeg,png,jpg',
             'start_date' => 'required',
             'due_date' => 'required',
         ];
