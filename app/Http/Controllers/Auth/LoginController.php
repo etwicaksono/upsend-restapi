@@ -28,11 +28,12 @@ class LoginController extends Controller
         }
 
         $user = User::where('email', request('email'))->first();
+        $data = json_decode($user, true);
+        $data['token'] = $token;
         return response()->json([
             'status' => Response::HTTP_OK,
             'message' => 'Login Successfully',
-            'data' => $user,
-            'token' => $token
+            'data' => $data
         ], Response::HTTP_OK);
     }
 }
