@@ -29,7 +29,7 @@ Route::namespace('Event')->prefix('event')->group(function() {
     // show event by ID
     Route::get('show', 'EventController@show');
     // delete event
-    Route::delete('delete', 'EventController@destroy');
+    Route::delete('delete/{id}', 'EventController@destroy');
     // search event
     Route::get('search', 'EventController@searchEvent');
 
@@ -37,6 +37,8 @@ Route::namespace('Event')->prefix('event')->group(function() {
     Route::post('registration', 'RegisterEventController');
     // come to event
     Route::post('come', 'JoinEventController');
+    
+    Route::post('scan', 'ScanController');
    
     Route::prefix('participant')->group(function() {
         // list of participant who registered fot the event
@@ -44,5 +46,6 @@ Route::namespace('Event')->prefix('event')->group(function() {
         
         // list of participant who came to the event
         Route::post('come', 'ParticipantController@come');
+        Route::post('events', 'ParticipantController@listEventByFollowing');
     });
 });
