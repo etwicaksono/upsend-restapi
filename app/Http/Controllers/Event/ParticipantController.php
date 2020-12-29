@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Event;
 
 use App\Event;
 use App\Http\Controllers\Controller;
+use App\RegisterEvent;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
@@ -101,5 +102,21 @@ class ParticipantController extends Controller
                 'data' => $data
             ], Response::HTTP_OK);
         }
+    }
+
+    public function countEvent() {
+        $userId = request('user_id');
+
+        $countEventCreated = Event::where('user_id', $userId)->count();
+        $countEventJoin = RegisterEvent::where('user_id', $userId)->count();
+        $data = [
+            "count_event_created" => $countEventCreated,
+            "count_event_join" => $countEventJoin
+        ];
+        return response()->json([
+            'status' => Response::HTTP_OK,
+            'message' => 'Data Event',
+            'data' => $data
+        ], Response::HTTP_OK);
     }
 }

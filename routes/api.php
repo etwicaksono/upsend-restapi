@@ -46,6 +46,9 @@ Route::namespace('Event')->prefix('event')->group(function() {
         
         // list of participant who came to the event
         Route::post('come', 'ParticipantController@come');
+
+        Route::get('count', 'ParticipantController@countEvent');
+
         Route::post('events', 'ParticipantController@listEventByFollowing');
     });
 });
