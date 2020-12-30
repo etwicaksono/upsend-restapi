@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Event;
 
+use App\Access;
 use App\Event;
 use App\Http\Requests\EventRequest;
 use App\Http\Controllers\Controller;
 use App\RegisterEvent;
+use App\User;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Endroid\QrCode\QrCode;
@@ -77,6 +79,21 @@ class EventController extends Controller
 
         // generate code for QRCode
         $nameOfCode = request('user_id') . "_" . time() . "_" . $this->_generateRandomString();
+
+
+        // checking access
+        $countEvent = Event::where('user_id', request('user_id'))->count();
+        $userAccessId = User::select('access_id')->where('id', request('user_id'))->first();
+        $access = Access::where('id', $userAccessId->access_id)->first();
+
+        if($access->id != 3) {
+            if($countEvent > $access->limit_create_event) {
+                return response()->json([
+                    'status' => Response::HTTP_FORBIDDEN,
+                    'message' => 'Limit!',
+                ], Response::HTTP_OK);
+            }
+        }
 
         Event::create([
             'user_id' => request('user_id'),
