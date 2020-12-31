@@ -71,6 +71,7 @@ class ParticipantController extends Controller
         $listOfEvent = Event::select('events.*')
             ->join('register_events', 'register_events.event_id', '=', 'events.id')
             ->where('register_events.user_id', $userId)
+            ->orderBy('events.start_date', 'asc')
             ->get();
         $baseUrl = URL::to("/img") . "/";
         $data = [];
