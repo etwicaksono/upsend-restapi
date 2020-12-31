@@ -263,10 +263,7 @@ class EventController extends Controller
         $query = request('query');
         $userId = request('user_id');
 
-        $search = Event::select('events.*')
-            ->join('register_events', 'register_events.event_id', '=', 'events.id')
-            ->where('register_events.user_id', $userId)
-            ->where('name', 'LIKE', '%' . $query . '%')
+        $search = Event::where('name', 'LIKE', '%' . $query . '%')
             ->get();
 
         $baseUrl = URL::to("/img") . "/";
